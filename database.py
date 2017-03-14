@@ -3,16 +3,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 
 Base = declarative_base()
-engine = create_engine('sqlite:///note_taking.db')
-
 
 class Notes(Base):
 
     __tablename__ = 'notes'
-    #Table of the notes, containing IDs, content and status
+    #Table of the notes, containing IDs, content
 
     id = Column(Integer, primary_key=True)
-    note_content = Column(String(20), nullable=False)
-   
+    note_content = Column(String(600), nullable=False)
+ 
+def create_db():
+	engine = create_engine('sqlite:///note_taking.db') 	
+	Base.metadata.create_all(engine)
+	return engine
 
-Base.metadata.create_all(engine)
+
+
