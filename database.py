@@ -9,7 +9,7 @@ class Notes(Base):
     __tablename__ = 'notes'
     #Table of the notes, containing IDs, content
 
-    id = Column(Integer, primary_key=True)
+    note_id = Column(Integer, primary_key=True)
     note_content = Column(String(600), nullable=False)
  
 def create_db():
