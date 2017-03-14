@@ -9,8 +9,9 @@ class Notes(Base):
     __tablename__ = 'notes'
     #Table of the notes, containing IDs, content
 
-    note_id = Column(Integer, primary_key=True)
-    note_content = Column(String(600), nullable=False)
+    note_id = Column(Integer, primary_key = True)
+    note_content = Column(String(600), nullable = False)
+    note_title = Column(String(15), nullable = False)
  
 def create_db():
 	engine = create_engine('sqlite:///note_taking.db') 	

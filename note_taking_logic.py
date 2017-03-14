@@ -5,17 +5,17 @@ class Note():
 	
 	def create_note(self, note_content):
 		self.note_content = note_content
-		note = Notes(note_content = self.note_content)
+		new_note = Notes(note_content = self.note_content)
 		engine = create_db()
 		Base.metadata.bind = engine
 		session = Session()
-		session.add(note)
+		session.add(new_note)
 		session.commit()
 	
 	def view_note(self, note_id):
 		self.note_id = note_id
 		session = Session()
-		result = session.query(Notes).filter_by(note_id = note_id).first()
+		result = session.query(Notes).filter_by(note_id = self.note_id).first()
 		print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
 
 	def view_all_notes(self):
@@ -28,16 +28,20 @@ class Note():
 	def delete_note(self, note_id):
 		self.note_id = note_id
 		session = Session()
-		note_to_delete = session.query(Notes).filter_by(note_id = note_id).first()
+		note_to_delete = session.query(Notes).filter_by(note_id = self.note_id).first()
 		deleted = session.delete(note_to_delete)
 		print("Id " + str(note_to_delete.note_id) + " deleted!")
 
+	def search_note(self,note_content):
+		self.note_content = str(note_content)
+		session = Session()
+		result = session.query(Notes).filter_by(note_content = self.note_content).first()
+		print ("Search results for" + "Text:" + (result.note_content))
 
 
 notes = Note()
 notes.create_note('lfuhkf;jpi;')
 
-# notes.create_note("today is Tuesday")
 first_1 = Note()
 first_1.view_note(1)
 # Note.view_note(1)
@@ -48,3 +52,5 @@ all_notes.view_all_notes()
 delete_1 = Note()
 delete_1.delete_note(2)
 
+searching = Note()
+searching.search_note("a")
