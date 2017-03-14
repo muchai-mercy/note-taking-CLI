@@ -28,9 +28,10 @@ class Note():
 	def delete_note(self, note_id):
 		self.note_id = note_id
 		session = Session()
-		session.query(Notes).filter_by(note_id = note_id).first()
-		deleted = session.delete(note_id)
-		print (deleted)
+		note_to_delete = session.query(Notes).filter_by(note_id = note_id).first()
+		deleted = session.delete(note_to_delete)
+		print("Id " + str(note_to_delete.note_id) + " deleted!")
+
 
 
 notes = Note()
