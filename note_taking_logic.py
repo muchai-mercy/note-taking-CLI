@@ -35,8 +35,15 @@ class Note():
 	def search_note(self,note_content):
 		self.note_content = str(note_content)
 		session = Session()
-		result = session.query(Notes).filter_by(note_content = self.note_content).first()
-		print ("Search results for" + "Text:" + (result.note_content))
+		results = session.query(Notes).filter_by(note_content = self.note_content).all()
+		note_list = []
+
+		for result in results:
+			search_query = note_list.append(result.note_content)
+			for item in note_list:
+				# if note_content['<text>'] in item:
+				# 	print ('Okay')
+					print (note_list)
 
 
 notes = Note()
@@ -53,4 +60,4 @@ delete_1 = Note()
 delete_1.delete_note(2)
 
 searching = Note()
-searching.search_note("a")
+searching.search_note("lfuhkf;jpi;")
