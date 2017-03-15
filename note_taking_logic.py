@@ -33,7 +33,7 @@ class Note():
 	"""Delete a note. Filter note to delete using note ID"""
 
 	def delete_note(note_id):
-		note_to_delete = session.query(Notes).filter_by(note_id = note_id).first()
+		note_to_delete = session.query(Notes).filter_by(note_id=note_id).first()
 		deleted = session.delete(note_to_delete)
 		print("Id " + str(note_to_delete.note_id) + " deleted!")
 
@@ -42,7 +42,7 @@ class Note():
 		Return a list of all notes that have text"""
 
 	def search_note(note_content, page = 0, page_size = 20):
-		results = session.query(Notes).filter_by(note_content = note_content)
+		results = session.query(Notes).filter(Notes.note_content.ilike("%" + note_content + "%"))
 		if page_size:
 			results = results.limit(page_size)
 		if page:
@@ -60,4 +60,4 @@ class Note():
 
 # Note.delete_note(1)
 
-Note.search_note("Get")
+Note.search_note("day")
