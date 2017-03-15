@@ -29,6 +29,7 @@ class Note():
 			print ("Id: " + str(item.note_id) + " Content: " + item.note_content)
 
 	"""Delete a note. Filter note to delete using note ID"""
+
 	def delete_note(note_id):
 		note_to_delete = session.query(Notes).filter_by(note_id = note_id).first()
 		deleted = session.delete(note_to_delete)
@@ -37,6 +38,7 @@ class Note():
 	"""Search for all notes that include a queried text
 		Filter all notes with text
 		Return a list of all notes that have text"""
+
 	def search_note(note_content):
 		results = session.query(Notes).filter_by(note_content = note_content).all()
 		note_list = {}
