@@ -8,6 +8,8 @@ class Note():
 	def __init__ (self, note_content, note_id):
 		self.note_content = note_content
 		self.note_id = note_id
+		self.page_size = page_size
+		self.page = page
 	
 	
 	"""Create a new note and store it in database"""
@@ -39,12 +41,18 @@ class Note():
 		Filter all notes with text
 		Return a list of all notes that have text"""
 
-	def search_note(note_content):
-		results = session.query(Notes).filter_by(note_content = note_content).all()
+	def search_note(note_content, page = 0, page_size = 20):
+		results = session.query(Notes).filter_by(note_content = note_content)
+		if page_size:
+			results = results.limit(page_size)
+		if page:
+			results = results.offset(page*page_size)
 		note_list = {}
 		for result in results:
 			note_list[result.note_id] = result.note_content
 		print(note_list)
+		
+
 
 # Note.view_note(1)
 
