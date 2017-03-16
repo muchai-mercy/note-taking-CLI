@@ -73,14 +73,19 @@ class Note():
 
 		with open('Notify.txt', 'w') as json_file:
 			json.dump(my_file, json_file, indent = 4)
-			print("Exported as JSON file")
+			print("File exported successfuly!")
 
-	# """Synchronises Notes with online datastore Firebase"""
-	# def sync():
-	# 	all_data = session.query(Notes).all()
-	# 	firebase = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/')
-	# 	notes_table = firebase.post('/', json.dumps(all_data))
-	# 	print ("Notify has been synced")
+	"""Synchronises Notes with online datastore Firebase"""
+	def sync():
+		notify_app = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/', None)
+		my_file	= []
+		for table in session.query(Notes).all():
+			my_js = dict(table.__dict__)
+			my_js.pop('_sa_instance_state', None)
+			my_file.append(my_js)
+		with open('Notify.txt', "w") as json_file:
+			notes_table = notify_app.post('/', json.dump(my_file, json_file ))
+			print ("Notify file has been synced")
 
 # Note.create_note("I like mangoes")
 # Note.view_note(1)
@@ -89,5 +94,6 @@ class Note():
 
 # Note.delete_note(2)
 # Note.search_note("ay")
-Note.import_json()
-Note.export_json()
+# Note.import_json()
+# Note.export_json()
+Note.sync()
