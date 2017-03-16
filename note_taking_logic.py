@@ -58,14 +58,21 @@ class Note():
 
 	"""Imports notes as JSON file"""
 	def import_json():
-		with open("Notify.json") as (json_file):
+		with open("Notify.txt") as (json_file):
 			notes_file = json.load(json_file)
+			print("You have imported a JSON file called Notify")
 			print(notes_file)
 
 	"""Exports notes as JSON file"""
 	def export_json():
+		my_file	= []
+		for table in session.query(Notes).all():
+			dictret = dict(table.__dict__)
+			dictret.pop('_sa_instance_state', None)
+			my_file.append(dictret)
+
 		with open('Notify.txt', 'w') as json_file:
-			json.dumps(json_file, indent = 4)
+			json.dump(r, json_file, indent = 4)
 			print("Exported as JSON file")
 
 	# """Synchronises Notes with online datastore Firebase"""
@@ -82,4 +89,4 @@ class Note():
 
 # Note.delete_note(2)
 # Note.search_note("ay")
-# Note.sync()
+Note.import_json()
