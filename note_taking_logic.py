@@ -55,13 +55,24 @@ class Note():
 			note_list[result.note_id] = result.note_content
 		print(note_list)
 
+
+	"""Imports notes as JSON file"""
+	def imports_json():
+		with open("Notify.json") as (json_file):
+			notes_file = json.load(json_file)
+			print(notes_file)
+
+    # """Exports notes as JSON file"""
+    # def exports_json():
+
+	"""Synchronises Notes with online datastore Firebase"""
 	def sync():
 		all_data = session.query(Notes).all()
 		firebase = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/')
-		notes_table = firebase.post('/', json.dump(all_data))
+		notes_table = firebase.post('/', json.dumps(all_data))
 		print ("Notify has been synced")
 
-Note.create_note("I like mangoes")
+# Note.create_note("I like mangoes")
 Note.view_note(1)
 
 Note.view_all_notes()
