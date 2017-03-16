@@ -1,14 +1,12 @@
 """
-This example uses docopt with the built in cmd module to demonstrate an
-interactive command application.
 Usage:
     notify create_note <note_content>
     notify view_note <note_id>
     notify delete_note <note_id>
     notify view_all_notes
     notify search_note <note_content>
-    notify export_json
-    notify import_json
+    notify export_
+    notify import_
     notify sync
     notify (-i | --interactive)
     notify (-h | --help | --version)
@@ -77,7 +75,7 @@ class Notify(cmd.Cmd):
 
     @docopt_cmd
     def do_create_note(self, arg):
-        """Usage: create_note <note_content>..."""
+        """Usage: create_note <note_content>"""
         
         new_note = arg["<note_content>"]
         notify.create_note(new_note)
@@ -106,14 +104,14 @@ class Notify(cmd.Cmd):
         notify.search_note(search_it)
 
     @docopt_cmd
-    def do_export_json(self, args):
-        """Usage: export_json"""
-        notify.export_json()
+    def do_export_(self, args):
+        """Usage: export_"""
+        notify.export_()
 
     @docopt_cmd
-    def do_import_json(self, args):
-        """Usage: view_note"""
-        notify.import_json()
+    def do_import_(self, args):
+        """Usage: import_"""
+        notify.import_()
 
     @docopt_cmd
     def do_sync(self, args):
@@ -123,7 +121,8 @@ class Notify(cmd.Cmd):
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
 
-        print('Good Bye!')
+        print('Thank you for using Notify!')
+        print('Goodbye')
         exit()
 
 opt = docopt(__doc__, sys.argv[1:], help = True)

@@ -9,48 +9,50 @@ session = Session()
 
 
 class Note():
-
-	# def __init__ (self):
-	# 	self.note_content = note_content
-	# 	self.note_id = note_id
-	# 	self.page_size = int(page_size)
-	# 	self.page = int(page)
 		
-	
-	
 	def create_note(self, note_content):
-		self.note_content = note_content
 		"""Create a new note and store it in database"""
+
 		new_note = Notes(note_content = note_content)
 		session.add(new_note)
 		session.commit()
 		print ("New note created!: " + str(note_content))
 
-	"""View any note created using the Id"""
+	
 	def view_note(self, note_id):
+		"""View any note created using the Id"""
+
 		result = session.query(Notes).filter_by(note_id = note_id).first()
+		print("Here is the note you want to view:")
 		print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
 
-	""" View a formated list of all notes"""
+	
 	def view_all_notes(self):
+
+		""" View a formated list of all notes"""
+
 		result = session.query(Notes).all()
-		# print(result)
+		print("All notes are here:")
 		for item in result:
 			print ("Id: " + str(item.note_id) + " Content: " + item.note_content)
 
-	"""Delete a note. Filter note to delete using note ID"""
-
+	
 	def delete_note(self, note_id):
+
+		"""Delete a note. Filter note to delete using note ID"""
+
 		note_to_delete = session.query(Notes).filter_by(note_id=note_id).first()
 		deleted = session.delete(note_to_delete)
 		session.commit()
-		print("Id " + str(note_to_delete.note_id) + " deleted!")
+		print("You just deleted " + "Id " + str(note_to_delete.note_id) + "!")
 
-	"""Search for all notes that include a queried text
+
+	def search_note(self, note_content, page = 0, page_size = 20):
+
+		"""Search for all notes that include a queried text
 		Filter all notes with text
 		Return a list of all notes that have text"""
 
-	def search_note(self, note_content, page = 0, page_size = 20):
 		results = session.query(Notes).filter(Notes.note_content.ilike("%" + note_content + "%"))
 		if page_size:
 			results = results.limit(page_size)
@@ -59,18 +61,22 @@ class Note():
 		note_list = {}
 		for result in results:
 			note_list[result.note_id] = result.note_content
+		print ("Find a dictionary of all the notes with the text you just searched here:")
 		print(note_list)
 
+	def import_(self):
 
-	"""Imports notes as JSON file"""
-	def import_json(self):
-		with open("Notify.txt") as (json_file):
+		"""Imports file of notes"""
+
+		with open("Notify.txt") as json_file:
 			notes_file = json.load(json_file)
-			print("You have imported a JSON file called Notify")
+			print("You have imported a file called Notify. Here it is!")
 			print(notes_file)
 
-	"""Exports notes as JSON file"""
-	def export_json(self):
+	def export_(self):
+
+		"""Exports notes as a file"""
+
 		my_file	= []
 		for table in session.query(Notes).all():
 			my_js = dict(table.__dict__)
@@ -80,9 +86,12 @@ class Note():
 		with open('Notify.txt', 'w') as json_file:
 			json.dump(my_file, json_file, indent = 4)
 			print("File exported successfuly!")
+			print("You can now find the Notify.txt file locally.")
 
-	"""Synchronises Notes with online datastore Firebase"""
 	def sync(self):
+
+		"""Synchronises Notes with online datastore Firebase"""
+
 		notify_app = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/', None)
 		my_file	= []
 		for table in session.query(Notes).all():
@@ -90,17 +99,6 @@ class Note():
 			my_js.pop('_sa_instance_state', None)
 			my_file.append(my_js)
 		notes_table = notify_app.post('/notes', my_file)
-		print ("Notify file has been synced")
+		print("Syncing your notes to Firebase")
+		print ("Yaay! All notes have been synced!")
 			
-
-# bar = Note()
-# bar.create_note("I like mangoes")
-# # Note.view_note(1)
-
-# # Note.view_all_notes()
-
-# # Note.delete_note(2)
-# # Note.search_note("ay")
-# # Note.import_json()
-# # Note.export_json()
-# # Note.sync()
