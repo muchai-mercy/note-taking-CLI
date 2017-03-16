@@ -1,5 +1,8 @@
 from sqlalchemy.orm import Session
 from database import Notes, create_db, Base
+import json
+from firebase import firebase
+
 engine = create_db()
 Base.metadata.bind = engine
 session = Session()
@@ -26,7 +29,7 @@ class Note():
 	""" View a formated list of all notes"""
 	def view_all_notes():
 		result = session.query(Notes).all()
-		print(result)
+		# print(result)
 		for item in result:
 			print ("Id: " + str(item.note_id) + " Content: " + item.note_content)
 
@@ -51,13 +54,17 @@ class Note():
 		for result in results:
 			note_list[result.note_id] = result.note_content
 		print(note_list)
-		
 
+	def sync():
+		all_data = session.query(Notes).all()
+		firebase = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/')
+		notes_table = firebase.post('/', json.dump(all_data))
+		print(notes_table)
 
-# Note.view_note(1)
+Note.create_note("I like mangoes")
+Note.view_note(1)
 
-# Note.view_all_notes()
+Note.view_all_notes()
 
-# Note.delete_note(1)
-
-Note.search_note("day")
+Note.delete_note(2)
+Note.search_note("ay")
