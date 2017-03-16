@@ -31,3 +31,11 @@ The user will be able to:
 
     Install the necessary packages
     $ pip install -r requirements.txt
+    
+# Functionality
+    Follow file path on console
+    cd bc-16-Note-Taking-Console-App
+    
+    Run:
+    $ python notify.py -i
+    Other usability specified within console for functionality
