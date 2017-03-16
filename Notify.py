@@ -1,17 +1,19 @@
 """
+This example uses docopt with the built in cmd module to demonstrate an
+interactive command application.
 Usage:
-    my_app (-i | --interactive)
-    my_app (-h | --help | --version)
-    create_note <note_content>
-    view_note <note_id>
-    delete_note <note_id>
-    view_all_notes <>
-    search_note <note_content>
-    export_json <>
-    import_json <>
-    sync <>
-
+    notify create_note <note_content>
+    notify view_note <note_id>
+    notify delete_note <note_id>
+    notify view_all_notes
+    notify search_note <note_content>
+    notify export_json
+    notify import_json
+    notify sync
+    notify (-i | --interactive)
+    notify (-h | --help | --version)
 Options:
+    -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
 """
 
@@ -23,88 +25,105 @@ from database import create_db, Base, Notes
 from note_taking_logic import Note
 from termcolor import colored
 from tabulate import tabulate
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Back,Style
 init()
+
+notify = Note()
+
+
 
 def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
     of the docopt parsing to the called action.
     """
+    def fn(self, arg):
+        try:
+            opt = docopt(fn.__doc__, arg)
+
+        except DocoptExit as e:
+            # The DocoptExit is thrown when the args do not match.
+            # We print a message to the user and the usage block.
+
+            print('Invalid Command!')
+            print(e)
+            return
+
+        except SystemExit:
+            # The SystemExit exception prints the usage for --help
+            # We do not need to do the print here.
+
+            return
+
+        return func(self, opt)
+
+    fn.__name__ = func.__name__
+    fn.__doc__ = func.__doc__
+    fn.__dict__.update(func.__dict__)
+    return fn
+
+
 class Notify(cmd.Cmd):
     print(colored("*-*" * 80, "cyan"))
     print(colored(Figlet(font='slant').renderText('\t NOTIFY'),"magenta"))
     print(colored("*-*" * 80, "cyan"))
     print(colored("\t Welcome to Notify! ","yellow"))
     print(colored("\t You can write notes here and store them...","green"))
-    
-    prompt = ("Get started with Notify")
+
+    prompt = ("notify: ")
+
+
     file = None
 
     @docopt_cmd
     def do_create_note(self, arg):
         """Usage: create_note <note_content>"""
-        note_content =arg["<note_content>"]
-        create_note(note_content)
-        print(note_content)
+        
+        new_note = arg["<note_content>"]
+        notify.create_note(new_note)
 
     @docopt_cmd
     def do_view_note(self, arg):
         """Usage: view_note <note_id>"""
-        note_id = arg["<note_id>"]
-        view_note(note_id)
+        view_1 = arg["<note_id>"]
+        notify.view_note(view_1)
 
     @docopt_cmd
-    def do_view_all_notes(self, arg):
-        """Usage: view_all_notes <note_id>"""
-        note_id = arg["<note_id>"]
-        view_all_notes(note_id)
-
-    @docopt_cmd
-    def do_delete_note(self, arg):
-        """Usage: delete_note <note_id>"""
-        note_id = arg["<note_id>"]
-        delete_note(note_id)
+    def do_view_all_notes(self, args):
+        """Usage: view_all_notes"""
+        notify.view_all_notes()
 
     @docopt_cmd
     def do_search_note(self, arg):
         """Usage: search_note <note_content>"""
-        note_content = arg["<note_content>"]
-        search_note(note_content)
+        search_it = arg["<note_content>"]
+        notify.search_note(search_it)
 
     @docopt_cmd
-    def do_view_note(self, arg):
-        """Usage: view_note <note_id>"""
-        note_id = arg["<note_id>"]
-        view_note(note_id)
+    def do_export_json(self, args):
+        """Usage: export_json"""
+        notify.export_json()
 
     @docopt_cmd
-    def do_export_json(self):
-        """Usage: export_json <>"""
-        export_json()
+    def do_import_json(self, args):
+        """Usage: view_note"""
+        notify.import_json()
 
     @docopt_cmd
-    def do_import_json(self):
-        """Usage: view_note <>"""
-        import_json()
+    def do_sync(self, args):
+        """Usage: sync"""
+        notify.sync()
 
-    # @docopt_cmd
-    # def do_sync(self):
-    #     """Usage: sync <>"""
-    #     sync()
-
-    @docopt_cmd    
     def do_quit(self, arg):
-        """Usage: quit"""
+        """Quits out of Interactive Mode."""
 
-        print("Your notes are saved!Goodbye")
+        print('Good Bye!')
         exit()
 
-# opt = docopt(__doc__, sys.argv[1:])
+opt = docopt(__doc__, sys.argv[1:], help = True)
+print (__doc__)
 
-# if opt['--interactive']:
-#     try:
-#         print(__doc__)
-#         Notify().cmdloop()
-#     except Exception as exc:
-#         print('Exiting Notify')
+if opt['--interactive']:
+    Notify().cmdloop()
+
+print(opt)
