@@ -59,7 +59,7 @@ class Note():
 		all_data = session.query(Notes).all()
 		firebase = firebase.FirebaseApplication('https://notify-74072.firebaseio.com/')
 		notes_table = firebase.post('/', json.dump(all_data))
-		print(notes_table)
+		print ("Notify has been synced")
 
 Note.create_note("I like mangoes")
 Note.view_note(1)
