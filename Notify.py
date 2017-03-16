@@ -77,7 +77,7 @@ class Notify(cmd.Cmd):
 
     @docopt_cmd
     def do_create_note(self, arg):
-        """Usage: create_note <note_content>"""
+        """Usage: create_note <note_content>..."""
         
         new_note = arg["<note_content>"]
         notify.create_note(new_note)
@@ -87,6 +87,12 @@ class Notify(cmd.Cmd):
         """Usage: view_note <note_id>"""
         view_1 = arg["<note_id>"]
         notify.view_note(view_1)
+
+    @docopt_cmd
+    def do_delete_note(self, arg):
+        """Usage: view_note <note_id>"""
+        delete_1 = arg["<note_id>"]
+        notify.delete_note(delete_1)
 
     @docopt_cmd
     def do_view_all_notes(self, args):
