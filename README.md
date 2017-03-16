@@ -38,6 +38,6 @@ The user will be able to:
     cd bc-16-Note-Taking-Console-App
 
     Run:
-    $ python notify.py -i
+    $ python Notify.py -i
     Other usability specified within console for functionality
 
