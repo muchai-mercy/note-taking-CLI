@@ -67,12 +67,12 @@ class Note():
 	def export_json():
 		my_file	= []
 		for table in session.query(Notes).all():
-			dictret = dict(table.__dict__)
-			dictret.pop('_sa_instance_state', None)
-			my_file.append(dictret)
+			my_js = dict(table.__dict__)
+			my_js.pop('_sa_instance_state', None)
+			my_file.append(my_js)
 
 		with open('Notify.txt', 'w') as json_file:
-			json.dump(r, json_file, indent = 4)
+			json.dump(my_file, json_file, indent = 4)
 			print("Exported as JSON file")
 
 	# """Synchronises Notes with online datastore Firebase"""
@@ -90,3 +90,4 @@ class Note():
 # Note.delete_note(2)
 # Note.search_note("ay")
 Note.import_json()
+Note.export_json()

@@ -62,8 +62,8 @@ class Notify(cmd.Cmd):
     print(colored("*-*" * 80, "cyan"))
     print(colored(Figlet(font='slant').renderText('\t NOTIFY'),"magenta"))
     print(colored("*-*" * 80, "cyan"))
-    print(colored("\t Welcome to Notify!: ","yellow"))
-    print(colored("\t You can write notes here and store them","green"))
+    print(colored("\t Welcome to Notify! ","yellow"))
+    print(colored("\t You can write notes here and store them...","green"))
     
     prompt = ("Get started with Notify")
     file = None
@@ -105,15 +105,15 @@ class Notify(cmd.Cmd):
         note_id = arg["<note_id>"]
         view_note(note_id)
 
-    # @docopt_cmd
-    # def do_export_json(self):
-    #     """Usage: export_json <>"""
-    #     export_json()
+    @docopt_cmd
+    def do_export_json(self):
+        """Usage: export_json <>"""
+        export_json()
 
-    # @docopt_cmd
-    # def do_import_json(self):
-    #     """Usage: view_note <>"""
-    #     import_json()
+    @docopt_cmd
+    def do_import_json(self):
+        """Usage: view_note <>"""
+        import_json()
 
     # @docopt_cmd
     # def do_sync(self):
