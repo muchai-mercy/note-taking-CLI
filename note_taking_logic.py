@@ -75,7 +75,7 @@ class Note():
 
 		with open("Notify.txt") as json_file:
 			notes_file = json.load(json_file)
-			print("\n You have imported a file called Notify. Here it is!")
+			print("\n You have imported a file called Notify. Here it is! /n")
 			print(notes_file)
 
 	def export_(self):
