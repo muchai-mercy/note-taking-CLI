@@ -16,14 +16,14 @@ class Note():
 		new_note = Notes(note_content = note_content)
 		session.add(new_note)
 		session.commit()
-		print ("New note created!: " + str(note_content))
+		print ("\n New note created!: " + str(note_content))
 
 	def view_note(self, note_id):
 		"""View any note created using the Id"""
 		if type(note_id) == int and note_id != 0:
 			result = session.query(Notes).filter_by(note_id = note_id).first()
-			print("Here is the note you want to view:")
-			print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
+			print("\n Here is the note you want to view:")
+			print ("\n Id: " + str(result.note_id) + " Content: " + result.note_content)
 			
 		else:
 			print ("Oops! Invalid note_id")
@@ -35,9 +35,9 @@ class Note():
 		""" View a formated list of all notes"""
 
 		result = session.query(Notes).all()
-		print("All notes are here:")
+		print("\n All notes are here:")
 		for item in result:
-			print ("Id: " + str(item.note_id) + " Content: " + item.note_content)
+			print ("\n Id: " + str(item.note_id) + " Content: " + item.note_content)
 
 	
 	def delete_note(self, note_id):
@@ -47,7 +47,7 @@ class Note():
 		note_to_delete = session.query(Notes).filter_by(note_id=note_id).first()
 		deleted = session.delete(note_to_delete)
 		session.commit()
-		print("You just deleted " + "Id " + str(note_to_delete.note_id) + "!")
+		print("\n You just deleted " + "Id " + str(note_to_delete.note_id) + "!")
 
 
 	def search_note(self, note_content, page = 0, page_size = 20):
@@ -75,7 +75,7 @@ class Note():
 
 		with open("Notify.txt") as json_file:
 			notes_file = json.load(json_file)
-			print("You have imported a file called Notify. Here it is!")
+			print("\n You have imported a file called Notify. Here it is!")
 			print(notes_file)
 
 	def export_(self):
@@ -91,7 +91,7 @@ class Note():
 		with open('Notify.txt', 'w') as json_file:
 			json.dump(my_file, json_file, indent = 4)
 			print("File exported successfuly!")
-			print("You can now find the Notify.txt file locally.")
+			print("\n You can now find the Notify.txt file locally.")
 
 	def sync(self):
 
@@ -104,5 +104,5 @@ class Note():
 			my_js.pop('_sa_instance_state', None)
 			my_file.append(my_js)
 		notes_table = notify_app.post('/notes', my_file)
-		print("Syncing your notes to Firebase")
-		print ("Yaay! All notes have been synced!")
+		print("\n Syncing your notes to Firebase \n")
+		print ("\n Yaay! All notes have been synced!")
