@@ -124,7 +124,7 @@ class Notify(cmd.Cmd):
         """Quits out of Interactive Mode."""
 
         print('Thank you for using Notify!')
-        print('Goodbye')
+        print('Come back soon!')
         exit()
 
 opt = docopt(__doc__, sys.argv[1:], help = True)
