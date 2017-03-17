@@ -20,16 +20,15 @@ class Note():
 
 	def view_note(self, note_id):
 		"""View any note created using the Id"""
-
-		result = session.query(Notes).filter_by(note_id = note_id).first()
-		if result.note_id == 0 or type(result.note_id) != int:
-			print ("Oops! Invalid note_id")
-			
-		else:
+		if type(note_id) == int and note_id != 0:
+			result = session.query(Notes).filter_by(note_id = note_id).first()
 			print("Here is the note you want to view:")
 			print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
+			
+		else:
+			print ("Oops! Invalid note_id")
 
-
+			
 	
 	def view_all_notes(self):
 
@@ -56,7 +55,6 @@ class Note():
 		"""Search for all notes that include a queried text
 		Filter all notes with text
 		Return a list of all notes that have text"""
-
 		results = session.query(Notes).filter(Notes.note_content.ilike("%" + note_content + "%"))
 		if page_size:
 			results = results.limit(page_size)
