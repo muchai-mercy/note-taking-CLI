@@ -68,7 +68,7 @@ class Notify(cmd.Cmd):
     print(colored("\t Welcome to Notify! ","yellow"))
     print(colored("\t You can write notes here and store them...","green"))
 
-    prompt = ("notify: ")
+    prompt = ("\n notify: ")
 
 
     file = None

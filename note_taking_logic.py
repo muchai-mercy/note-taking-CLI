@@ -63,8 +63,11 @@ class Note():
 		note_list = {}
 		for result in results:
 			note_list[result.note_id] = result.note_content
-		print ("Find a dictionary of all the notes with the text you just searched here:")
-		print(note_list)
+		if note_list == {}:
+			print ("\n No results")
+		else:
+			print ("\n Here is a dictionary of all the notes with the text you just searched here:\n")
+			print(note_list)
 
 	def import_(self):
 
@@ -103,4 +106,3 @@ class Note():
 		notes_table = notify_app.post('/notes', my_file)
 		print("Syncing your notes to Firebase")
 		print ("Yaay! All notes have been synced!")
-
