@@ -1,6 +1,6 @@
 """
 Usage:
-    notify create_note <note_content>
+    notify create_note <note_content>...
     notify view_note <note_id>
     notify delete_note <note_id>
     notify view_all_notes
@@ -75,10 +75,12 @@ class Notify(cmd.Cmd):
 
     @docopt_cmd
     def do_create_note(self, arg):
-        """Usage: create_note <note_content>"""
+        """Usage: create_note <note_content>...
+        """
         
         new_note = arg["<note_content>"]
-        notify.create_note(new_note)
+        add_note = " ".join(new_note)
+        notify.create_note(add_note)
 
     @docopt_cmd
     def do_view_note(self, arg):

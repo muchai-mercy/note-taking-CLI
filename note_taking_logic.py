@@ -12,19 +12,23 @@ class Note():
 		
 	def create_note(self, note_content):
 		"""Create a new note and store it in database"""
-
+		# cont = input("enter new note: ")
 		new_note = Notes(note_content = note_content)
 		session.add(new_note)
 		session.commit()
 		print ("New note created!: " + str(note_content))
 
-	
 	def view_note(self, note_id):
 		"""View any note created using the Id"""
 
 		result = session.query(Notes).filter_by(note_id = note_id).first()
-		print("Here is the note you want to view:")
-		print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
+		if result.note_id == 0 or type(result.note_id) != int:
+			print ("Oops! Invalid note_id")
+			
+		else:
+			print("Here is the note you want to view:")
+			print ("Id: " + str(result.note_id) + " Content: " + result.note_content)
+
 
 	
 	def view_all_notes(self):
@@ -101,4 +105,4 @@ class Note():
 		notes_table = notify_app.post('/notes', my_file)
 		print("Syncing your notes to Firebase")
 		print ("Yaay! All notes have been synced!")
-			
+
