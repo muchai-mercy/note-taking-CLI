@@ -23,7 +23,7 @@ requests==2.13.0
 six==1.10.0
 SQLAlchemy==1.1.6
 stevedore==1.21.0
-tabulate==0.7.7
+tabulate==0.8.5
 termcolor==1.1.0
 virtualenv==15.1.0
 virtualenv-clone==0.2.6
